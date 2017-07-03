@@ -1,1 +1,1 @@
-console.log('Some another keks');
+console.log('Kek');
