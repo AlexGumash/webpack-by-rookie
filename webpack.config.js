@@ -17,8 +17,8 @@ const cssConfig = IsProd ? cssProd : cssDev;
 module.exports = {
   context: src,
   entry: {
-    app: './app.js',
-    about: './about.js'
+    app: './scripts/app.js',
+    about: './scripts/about.js'
   },
   output: {
     path: path.resolve(__dirname, "dist"),
@@ -38,6 +38,13 @@ module.exports = {
       {
         test: /\.pug$/,
         use: "pug-loader"
+      },
+      {
+        test: /\.(jpg|png|svg)$/,
+        use: [
+          "file-loader?name=images/[name].[ext]",
+          'image-webpack-loader'
+        ]
       }
     ]
   },
@@ -53,14 +60,14 @@ module.exports = {
       title: 'gumash-webpack',
       hash: true,
       filename: "index.html",
-      template: './index.pug',
+      template: './views/index.pug',
       excludeChunks: ["about"]
     }),
     new HtmlWebpackPlugin({
       title: 'gumash-webpack',
       hash: true,
       filename: "about.html",
-      template: './about.pug',
+      template: './views/about.pug',
       chunks: ["about"]
     }),
     new ExtractTextPlugin({

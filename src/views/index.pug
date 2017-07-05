@@ -1,0 +1,9 @@
+include ../blocks/alex-puton
+doctype html
+html(lang="en")
+  head
+    title= pageTitle
+  body
+    h1 Pug - node template engine
+    +alex-puton()
+    div= htmlWebpackPlugin.options.content
