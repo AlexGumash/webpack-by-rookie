@@ -1,0 +1,34 @@
+@import 'reset.styl'
+
+body
+	background-color rgb(255, 224, 221)
+
+.alex-features
+	display flex
+	justify-content space-around
+
+.alex-features__elem
+	flex-basis 25%
+	height 100px
+	background-size cover
+	color red
+	border-radius 5px
+
+
+	&:nth-child(1)
+		background url('../static/assets/images/alex-puton-face.jpg') 50% 50% no-repeat
+		background-size cover
+
+	&:nth-child(2)
+		background url('../static/assets/images/alex-puton-face.jpg') 50% 50% no-repeat
+		background-size cover
+
+	&:nth-child(3)
+		background url('../static/assets/images/alex-puton-face.jpg') 50% 50% no-repeat
+		background-size cover
+
+	p
+		display block
+		text-align center
+		position relative
+		bottom -105px

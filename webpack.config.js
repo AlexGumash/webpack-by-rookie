@@ -2,6 +2,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const webpack = require("webpack");
 const path = require('path');
+const kek = require('./src/kek.json');
 
 const dist = path.join(__dirname, 'dist');
 const src = path.join(__dirname, 'src');
@@ -61,7 +62,8 @@ module.exports = {
       hash: true,
       filename: "index.html",
       template: './views/index.pug',
-      excludeChunks: ["about"]
+      excludeChunks: ["about"],
+      content: kek
     }),
     new HtmlWebpackPlugin({
       title: 'gumash-webpack',
