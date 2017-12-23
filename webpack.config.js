@@ -1,29 +1,47 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const webpack = require("webpack");
-const path = require('path');
-const kek = require('./src/kek.json');
+const path = require("path");
+const kek = require("./src/kek.json");
+const browsers = require("./package").browsers;
 
-const dist = path.join(__dirname, 'dist');
-const src = path.join(__dirname, 'src');
+const dist = path.join(__dirname, "dist");
+const src = path.join(__dirname, "src");
 
-const IsProd = process.env.NODE_ENV === 'production';
-const cssDev = ['style-loader','css-loader','stylus-loader'];
+const autoprefixerBrowsers = [
+  "Android >= " + browsers.android,
+  "Chrome >= " + browsers.chrome,
+  "Firefox >= " + browsers.firefox,
+  "Explorer >= " + browsers.ie,
+  "iOS >= " + browsers.ios,
+  "Opera >= " + browsers.opera,
+  "Safari >= " + browsers.safari
+].map(browser => `"${browser}"`);
+
+const autoprefixerLoader = `autoprefixer-loader?{browsers:[${autoprefixerBrowsers}]}`;
+
+const IsProd = process.env.NODE_ENV === "production";
+const cssDev = [
+  "style-loader",
+  "css-loader",
+  autoprefixerLoader,
+  "stylus-loader"
+];
 const cssProd = ExtractTextPlugin.extract({
-  fallback: 'style-loader',
-  use: ['css-loader', 'stylus-loader']
+  fallback: "style-loader",
+  use: ["css-loader", "stylus-loader"]
 });
 const cssConfig = IsProd ? cssProd : cssDev;
 
 module.exports = {
   context: src,
   entry: {
-    app: './scripts/app.js',
-    about: './scripts/about.js'
+    app: "./scripts/app.js",
+    about: "./scripts/about.js"
   },
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: '[name].bundle.js'
+    filename: "[name].bundle.js"
   },
   module: {
     rules: [
@@ -42,10 +60,7 @@ module.exports = {
       },
       {
         test: /\.(jpg|png|svg)$/,
-        use: [
-          "file-loader?name=images/[name].[ext]",
-          'image-webpack-loader'
-        ]
+        use: ["file-loader?name=images/[name].[ext]", "image-webpack-loader"]
       }
     ]
   },
@@ -58,18 +73,18 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'gumash-webpack',
+      title: "gumash-webpack",
       hash: true,
       filename: "index.html",
-      template: './views/index.pug',
+      template: "./views/index.pug",
       excludeChunks: ["about"],
       content: kek
     }),
     new HtmlWebpackPlugin({
-      title: 'gumash-webpack',
+      title: "gumash-webpack",
       hash: true,
       filename: "about.html",
-      template: './views/about.pug',
+      template: "./views/about.pug",
       chunks: ["about"]
     }),
     new ExtractTextPlugin({
@@ -78,6 +93,6 @@ module.exports = {
       allChunks: true
     }),
     new webpack.HotModuleReplacementPlugin(),
-		new webpack.NamedModulesPlugin()
+    new webpack.NamedModulesPlugin()
   ]
-}
+};
